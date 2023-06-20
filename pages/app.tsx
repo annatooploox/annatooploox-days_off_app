@@ -1,17 +1,16 @@
 
 import React from 'react';
-import './App.css';
-import Grid from './Grid'
-import Sidebar from './Sidebar';
+import Grid from './grid';
+import Sidebar from './sidebar';
 
 function App() {
 
 
   return (
-    
+
     <div className="App">
       <Grid />
-      <Sidebar/>
+      <Sidebar />
     </div>
   );
 }
