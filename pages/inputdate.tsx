@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 
-const numbers = Array.from({ length: 35 }, (_, index) => index + 1);
-
-const options = [
-    { value: numbers.toString(), label: numbers.toString() },
-];
-
-
 export default function InputDate() {
-    return <Select className="input" options={options} placeholder="Choose date" />;
+
+    const numbers = Array.from({ length: 35 }, (_, index) => index + 1);
+
+    const options = numbers.map((elem) =>
+        (<option value={elem}>{" "}{elem} {" "}</option>));
+
+    return <select className="input"
+
+        placeholder="Choose date" >{options}</select>;
 }

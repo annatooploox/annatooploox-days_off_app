@@ -18,6 +18,7 @@ export default function Sidebar() {
             <div className={`sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">SET NEW DAYS OFF</div>
                 <InputDate />
+                <div></div>
                 <InputDate />
                 <button className="close-button" onClick={closeSidebar}>CLOSE</button>
             </div>
