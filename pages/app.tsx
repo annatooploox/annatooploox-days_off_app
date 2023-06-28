@@ -5,7 +5,6 @@ import Sidebar from './sidebar';
 
 function App() {
 
-
   return (
 
     <div className="App">

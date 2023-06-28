@@ -13,15 +13,14 @@ export default function Sidebar() {
     };
 
     return (
-        <div>
+        <>
             <button className="button" onClick={openSidebar}>BOOK DAYS OFF</button>
             <div className={`sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">SET NEW DAYS OFF</div>
                 <InputDate />
-                <div></div>
                 <InputDate />
                 <button className="close-button" onClick={closeSidebar}>CLOSE</button>
             </div>
-        </div>
+        </>
     );
 }
