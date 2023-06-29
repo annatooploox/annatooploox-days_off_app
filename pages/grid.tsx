@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import InputDate from './inputdate';
 
-export default function Grid() {
+export default function Grid({ startNumber, endNumber }: {
+  startNumber: number,
+  endNumber: number
+}) {
+
+
   const numbers = Array.from({ length: 35 }, (_, index) => index + 1);
-
-  const startNumber = 13;
-  const endNumber = 18;
 
   return (
     <div className="container">
@@ -19,5 +22,6 @@ export default function Grid() {
         );
       })}
     </div>
+
   );
 }
