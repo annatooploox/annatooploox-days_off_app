@@ -62,8 +62,17 @@ const ŁadnaNazwaKomponentu = styled.div`
     border-radius: 10%;
 }
 
-.item.selected {
-    background-color: rgba(150, 27, 27, 50%);
+.item.selected.vacation {
+    background-color: moccasin;
+}
+
+
+.item.selected.unpaid {
+    background-color: lightgreen;
+}
+
+.item.selected.parental {
+    background-color: lightblue;
 }
 
 .button {

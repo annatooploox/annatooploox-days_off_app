@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import InputDate from './inputdate';
 
-export default function Grid({ startNumber, endNumber }: {
+export default function Grid({ startNumber, endNumber, vacationType }: {
   startNumber: number,
-  endNumber: number
+  endNumber: number,
+  vacationType: string
 }) {
 
 
@@ -16,7 +17,7 @@ export default function Grid({ startNumber, endNumber }: {
 
         return (
 
-          <div key={number} className={`item number ${selected ? 'selected' : ''}`}>
+          <div key={number} className={`item number ${selected ? 'selected' : ''} ${vacationType}`}>
             {number}
           </div>
         );
