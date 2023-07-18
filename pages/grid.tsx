@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import InputDate from './inputdate';
-
-export default function Grid({ startNumber, endNumber, vacationType }: {
-  startNumber: number,
-  endNumber: number,
-  vacationType: string
+export default function Grid({
+  startNumber,
+  endNumber,
+  vacationType,
+}: {
+  startNumber: number;
+  endNumber: number;
+  vacationType: string;
 }) {
-
-
   const numbers = Array.from({ length: 35 }, (_, index) => index + 1);
 
   return (
@@ -16,13 +15,11 @@ export default function Grid({ startNumber, endNumber, vacationType }: {
         const selected = number >= startNumber && number <= endNumber;
 
         return (
-
           <div key={number} className={`item number ${selected ? 'selected' : ''} ${vacationType}`}>
             {number}
           </div>
         );
       })}
     </div>
-
   );
 }
