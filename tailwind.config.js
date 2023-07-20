@@ -10,7 +10,7 @@ module.exports = {
       grey: '#C8C8C8',
       mediumgrey: '#E8E8E8',
       dayoff: {
-        undpaid: 'yellow',
+        unpaid: 'yellow',
         parental: 'lightblue',
         vacation: 'moccasin',
       },
