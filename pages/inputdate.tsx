@@ -25,7 +25,16 @@ export default function InputDate({
   // aby nie wychodziło poza contener to ustawiamy... overflow:hidden na kontenerze
 
   return (
-    <select className="input" placeholder="Choose date" value={value} onChange={chooseOption}>
+    <select
+      className="bg-lightgrey list-style-type: none display: inline; 
+      cursor-pointer text-sm font-medium leading-[10px] text-center 
+      transition-all duration-200 whitespace-nowrap select-none 
+      touch-manipulation relative -translate-x-2/4 block px-[30px] 
+      py-[5px] left-2/4 top-[200px];"
+      placeholder="Choose date"
+      value={value}
+      onChange={chooseOption}
+    >
       {options}
     </select>
   );

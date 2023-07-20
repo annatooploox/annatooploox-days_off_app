@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Grid from './grid';
 import Sidebar from './sidebar';

@@ -7,7 +7,7 @@ export default function VacationTypedropdown({
   value: string;
   onChange: (value: string) => void;
 }) {
-  const vacationType = ['vacation', 'unpaid', 'parental leave'];
+  const vacationType = ['vacation', 'unpaid', 'parental'];
 
   const options = vacationType.map((elem) => (
     <option key={elem} value={elem}>
@@ -26,7 +26,7 @@ export default function VacationTypedropdown({
 
   return (
     <select
-      className="input"
+      className="bg-lightgrey list-style-type: none display: inline; cursor-pointer text-sm font-medium leading-[10px] text-center transition-all duration-200 whitespace-nowrap select-none touch-manipulation relative -translate-x-2/4 block px-[30px] py-[5px] left-2/4 top-[200px];"
       placeholder="Choose day off type"
       value={value}
       onChange={chooseOption}

@@ -1,3 +1,5 @@
+type VacationType = 'unpaid' | 'parental' | 'vacation';
+
 export default function Grid({
   startNumber,
   endNumber,
@@ -5,21 +7,34 @@ export default function Grid({
 }: {
   startNumber: number;
   endNumber: number;
-  vacationType: string;
+  vacationType: VacationType;
 }) {
   const numbers = Array.from({ length: 35 }, (_, index) => index + 1);
 
-  return (
-    <div className="container">
-      {numbers.map((number) => {
-        const selected = number >= startNumber && number <= endNumber;
+  const colorVariants: Record<VacationType, string> = {
+    unpaid: 'bg-dayoff-unpaid',
+    parental: 'bg-dayoff-parental',
+    vacation: 'bg-dayoff-vacation',
+  };
 
-        return (
-          <div key={number} className={`item number ${selected ? 'selected' : ''} ${vacationType}`}>
-            {number}
-          </div>
-        );
-      })}
+  const isNumberSelected = (number: number): boolean => {
+    return number >= startNumber && number <= endNumber;
+  };
+
+  return (
+    <div
+      className="grid grid-cols-[repeat(7,1fr)] auto-rows-[1fr] gap-2.5 w-[500px] h-[500px] justify-center 
+    absolute translate-x-[-30%] -translate-y-2/4 left-[30%] top-2/4"
+    >
+      {numbers.map((number) => (
+        <div
+          key={number}
+          className={`flex bg-mediumgrey items-center justify-center rounded-[6%] number 
+            ${isNumberSelected(number) ? 'selected ' + colorVariants[vacationType] : ''}`}
+        >
+          {number}
+        </div>
+      ))}
     </div>
   );
 }
