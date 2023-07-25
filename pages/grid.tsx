@@ -1,4 +1,4 @@
-type VacationType = 'unpaid' | 'parental' | 'vacation';
+export type VacationType = 'unpaid' | 'parental' | 'vacation';
 
 export default function Grid({
   startNumber,
@@ -29,8 +29,10 @@ export default function Grid({
       {numbers.map((number) => (
         <div
           key={number}
-          className={`flex bg-mediumgrey items-center justify-center rounded-[6%] number 
-            ${isNumberSelected(number) ? 'selected ' + colorVariants[vacationType] : ''}`}
+          className={`flex items-center justify-center rounded-[6%] number 
+            ${
+              isNumberSelected(number) ? 'selected ' + colorVariants[vacationType] : 'bg-mediumgrey'
+            }`}
         >
           {number}
         </div>

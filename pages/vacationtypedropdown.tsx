@@ -1,23 +1,29 @@
 import React from 'react';
 
+import { VacationType } from './grid';
+
+import { includes } from '@/src/utils/includes';
+
+const vacationTypes: VacationType[] = ['vacation', 'unpaid', 'parental'];
+
 export default function VacationTypedropdown({
   value,
   onChange,
 }: {
-  value: string;
-  onChange: (value: string) => void;
+  value: VacationType;
+  onChange: (value: VacationType) => void;
 }) {
-  const vacationType = ['vacation', 'unpaid', 'parental'];
-
-  const options = vacationType.map((elem) => (
-    <option key={elem} value={elem}>
-      {elem}
+  const options = vacationTypes.map((vacationType) => (
+    <option key={vacationType} value={vacationType}>
+      {vacationType}
     </option>
   ));
 
   const chooseOption: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const selectedOption = event.target.value;
-    onChange(selectedOption);
+    if (includes(vacationTypes, selectedOption)) {
+      onChange(selectedOption);
+    }
     console.log(selectedOption);
   };
 

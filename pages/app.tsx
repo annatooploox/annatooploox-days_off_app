@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import Grid from './grid';
+import Grid, { VacationType } from './grid';
 import Sidebar from './sidebar';
 
 function App() {
   const [startNumber, setStartNumber] = useState(11);
   const [endNumber, setEndNumber] = useState(19);
-  const [vacationType, setVacationType] = useState('');
+  const [vacationType, setVacationType] = useState<VacationType>('vacation');
 
   return (
     <div className="App">

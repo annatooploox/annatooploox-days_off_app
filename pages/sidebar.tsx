@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { VacationType } from './grid';
 import InputDate from './inputdate';
 import VacationTypedropdown from './vacationtypedropdown';
 
@@ -15,8 +16,8 @@ export default function Sidebar({
   endNumber: number;
   setStartNumber: (value: number) => void;
   setEndNumber: (value: number) => void;
-  vacationType: string;
-  setVacationType: (value: string) => void;
+  vacationType: VacationType;
+  setVacationType: (value: VacationType) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
