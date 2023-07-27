@@ -4,8 +4,9 @@ import Grid, { VacationType } from './grid';
 import Sidebar from './sidebar';
 
 function App() {
-  const [startNumber, setStartNumber] = useState(11);
-  const [endNumber, setEndNumber] = useState(19);
+  //stan zewnętrzny dla sidebar
+  const [startNumber, setStartNumber] = useState(1);
+  const [endNumber, setEndNumber] = useState(1);
   const [vacationType, setVacationType] = useState<VacationType>('vacation');
 
   return (

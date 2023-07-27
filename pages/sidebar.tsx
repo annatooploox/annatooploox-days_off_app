@@ -19,13 +19,37 @@ export default function Sidebar({
   vacationType: VacationType;
   setVacationType: (value: VacationType) => void;
 }) {
+  //stan wewnętrzny, zewnętrzny jest z APP stan aplikacji - stan na kalendarzu
+  //zmiany są widocznie na GRID dopieor jak klikniemy SAVE. A Grid powinien o tym wiedzieć w trakcie eydcji
+  // trzeba te edycje wyciagnac do App
+  // jeśki Sidebar jest OPEN to chcemy uyć edited, a jak nie jest OPen to zwykłych
+  //wyciągamy isOpen do App'a
+  //będzie duo propów do Sidebar - 7 wystarczy (teraz jest 14)
   const [isOpen, setIsOpen] = useState(false);
+  const [editedStartNumber, setEditedStartNumber] = useState(startNumber);
+  const [editedEndNumber, setEditedEndNumber] = useState(endNumber);
+  const [editedVacationType, setEditedVacationType] = useState(vacationType);
 
   const openSidebar = () => {
-    setIsOpen(!isOpen);
+    setEditedStartNumber(startNumber);
+    setEditedEndNumber(endNumber);
+    setEditedVacationType(vacationType);
+    setIsOpen(true);
   };
 
-  const closeSidebar = () => {
+  // const closeSidebar = () => {
+  //   setIsOpen(false);
+  // };
+
+  const handleSave = () => {
+    setStartNumber(editedStartNumber);
+    setEndNumber(editedEndNumber);
+    setVacationType(editedVacationType);
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    console.log('cancel', { startNumber, endNumber });
     setIsOpen(false);
   };
 
@@ -43,7 +67,13 @@ export default function Sidebar({
       >
         BOOK DAYS OFF
       </button>
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+      <div
+        className={`sidebar ${
+          isOpen
+            ? 'bg-lightgrey w-[300px] h-full absolute translate-x-[0%] transition-transform duration-100 ease-[ease] right-0 top-0'
+            : 'w-[300px] h-full absolute translate-x-full transition-transform duration-100 ease-[ease] right-0 top-0'
+        } `}
+      >
         <div
           className="bg-[#f0f0f0] text-xl font-[bold] text-[#333] text-center 
         whitespace-nowrap overflow-hidden 
@@ -51,9 +81,9 @@ export default function Sidebar({
         >
           SET NEW DAYS OFF
         </div>
-        <InputDate value={startNumber} onChange={setStartNumber} />
-        <InputDate value={endNumber} onChange={setEndNumber} />
-        <VacationTypedropdown value={vacationType} onChange={setVacationType} />
+        <InputDate value={editedStartNumber} onChange={setEditedStartNumber} />
+        <InputDate value={editedEndNumber} onChange={setEditedEndNumber} />
+        <VacationTypedropdown value={editedVacationType} onChange={setEditedVacationType} />
         <button
           className="bg-mediumgrey hover:bg-blue-500 text-blue-700 font-semibold 
           hover:text-white py-2 px-4 border border-blue-500 
@@ -61,20 +91,20 @@ export default function Sidebar({
           text-sm font-extrabold leading-5 text-center transition-all duration-200 
           align-baseline whitespace-nowrap touch-manipulation 
           absolute m-[100] px-5 py-[15px] rounded-[10px] border-0 right-[60px] 
-          top-[800px]"
-          onClick={closeSidebar}
+          top-[500px]"
+          onClick={handleCancel}
         >
           CLOSE
         </button>
         <button
-          className="bg-mediumgrey hover:bg-blue-500 text-blue-700 font-semibold 
-          hover:text-white py-2 px-4 border border-blue-500 
-          cursor-pointer inline-block 
-          text-sm font-extrabold leading-5 text-center transition-all duration-200 
-          align-baseline whitespace-nowrap touch-manipulation 
-          absolute m-[100] px-5 py-[15px] rounded-[10px] border-0 right-[150px] 
-          top-[800px]"
-          onClick={closeSidebar}
+          className="bg-mediumgrey hover:bg-blue-500 text-blue-700 font-semibold
+          hover:text-white py-2 px-4 border border-blue-500
+          cursor-pointer inline-block
+          text-sm font-extrabold leading-5 text-center transition-all duration-200
+          align-baseline whitespace-nowrap touch-manipulation
+          absolute m-[100] px-5 py-[15px] rounded-[10px] border-0 right-[150px]
+          top-[500px]"
+          onClick={handleSave}
         >
           SAVE
         </button>
