@@ -1,7 +1,6 @@
-import { useState } from 'react';
-
 import { VacationType } from './grid';
 import InputDate from './inputdate';
+import Overwrite_checkbox from './overwrite_checkbox';
 import VacationTypedropdown from './vacationtypedropdown';
 
 export default function Sidebar({
@@ -11,6 +10,10 @@ export default function Sidebar({
   setEndNumber,
   vacationType,
   setVacationType,
+  handleSave,
+  handleCancel,
+  isOpen,
+  openSidebar,
 }: {
   startNumber: number;
   endNumber: number;
@@ -18,6 +21,10 @@ export default function Sidebar({
   setEndNumber: (value: number) => void;
   vacationType: VacationType;
   setVacationType: (value: VacationType) => void;
+  handleCancel: () => void;
+  handleSave: () => void;
+  isOpen: boolean;
+  openSidebar: () => void;
 }) {
   //stan wewnętrzny, zewnętrzny jest z APP stan aplikacji - stan na kalendarzu
   //zmiany są widocznie na GRID dopieor jak klikniemy SAVE. A Grid powinien o tym wiedzieć w trakcie eydcji
@@ -25,33 +32,10 @@ export default function Sidebar({
   // jeśki Sidebar jest OPEN to chcemy uyć edited, a jak nie jest OPen to zwykłych
   //wyciągamy isOpen do App'a
   //będzie duo propów do Sidebar - 7 wystarczy (teraz jest 14)
-  const [isOpen, setIsOpen] = useState(false);
-  const [editedStartNumber, setEditedStartNumber] = useState(startNumber);
-  const [editedEndNumber, setEditedEndNumber] = useState(endNumber);
-  const [editedVacationType, setEditedVacationType] = useState(vacationType);
-
-  const openSidebar = () => {
-    setEditedStartNumber(startNumber);
-    setEditedEndNumber(endNumber);
-    setEditedVacationType(vacationType);
-    setIsOpen(true);
-  };
 
   // const closeSidebar = () => {
   //   setIsOpen(false);
   // };
-
-  const handleSave = () => {
-    setStartNumber(editedStartNumber);
-    setEndNumber(editedEndNumber);
-    setVacationType(editedVacationType);
-    setIsOpen(false);
-  };
-
-  const handleCancel = () => {
-    console.log('cancel', { startNumber, endNumber });
-    setIsOpen(false);
-  };
 
   return (
     <>
@@ -81,9 +65,10 @@ export default function Sidebar({
         >
           SET NEW DAYS OFF
         </div>
-        <InputDate value={editedStartNumber} onChange={setEditedStartNumber} />
-        <InputDate value={editedEndNumber} onChange={setEditedEndNumber} />
-        <VacationTypedropdown value={editedVacationType} onChange={setEditedVacationType} />
+        <InputDate value={startNumber} onChange={setStartNumber} />
+        <InputDate value={endNumber} onChange={setEndNumber} />
+        <VacationTypedropdown value={vacationType} onChange={setVacationType} />
+        <Overwrite_checkbox></Overwrite_checkbox>
         <button
           className="bg-mediumgrey hover:bg-blue-500 text-blue-700 font-semibold 
           hover:text-white py-2 px-4 border border-blue-500 
