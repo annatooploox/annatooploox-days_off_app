@@ -1,4 +1,4 @@
-export type VacationType = 'unpaid' | 'parental' | 'vacation';
+import { VacationType } from '@/src/models/vacationType';
 
 export default function Grid({
   startNumber,

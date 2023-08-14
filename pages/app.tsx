@@ -5,9 +5,6 @@ import Sidebar from './sidebar';
 
 function App() {
   //stan zewnętrzny dla sidebar
-  // const [startNumber, setStartNumber] = useState(1);
-  // const [endNumber, setEndNumber] = useState(1);
-  // const [vacationType, setVacationType] = useState<VacationType>('vacation');
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,6 +13,8 @@ function App() {
   const [vacationType, setVacationType] = useState<VacationType>('vacation');
 
   const openSidebar = () => {
+    // te trzy zastępuję jednym obiektem - rangem
+    //przechowywać muszę RANGE, które są ju ustalone, i te tymczasowy stan, gdy sidebar jest otwarty.
     setStartNumber(startNumber);
     setEndNumber(endNumber);
     setVacationType(vacationType);
@@ -29,6 +28,7 @@ function App() {
     setIsOpen(false);
   };
 
+  //ToDo ma się resetować, a nie czyścić danych.
   const handleCancel = () => {
     setStartNumber(0);
     setEndNumber(0);

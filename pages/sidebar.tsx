@@ -1,7 +1,8 @@
-import { VacationType } from './grid';
 import InputDate from './inputdate';
 import Overwrite_checkbox from './overwrite_checkbox';
 import VacationTypedropdown from './vacationtypedropdown';
+
+import { VacationType } from '@/src/models/vacationType';
 
 export default function Sidebar({
   startNumber,
@@ -40,12 +41,7 @@ export default function Sidebar({
   return (
     <>
       <button
-        className="bg-mediumgrey hover:bg-blue-500 text-blue-700 font-semibold 
-        hover:text-white py-2 px-4 border border-blue-500 
-        cursor-pointer inline-block 
-        text-sm leading-5 text-center transition-all duration-200 
-        align-baseline whitespace-nowrap touch-manipulation 
-        absolute m-[100] px-5 py-[15px] rounded-[10px] border-0 right-[100px] 
+        className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] absolute m-[100] px-5 py-[15px] rounded-[10px] border-0 right-[100px] 
         top-[100px]"
         onClick={openSidebar}
       >
