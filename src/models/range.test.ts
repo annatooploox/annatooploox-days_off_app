@@ -1,15 +1,13 @@
-// install library, add TypeVacation to test cases
-
 import { addRange } from './range';
 
 describe('addRange', () => {
-  it.only('adds a range to an empty set', () => {
+  it('adds a range to an empty set', () => {
     expect(addRange([], { start: 3, end: 7, type: 'vacation' })).toEqual([
       { start: 3, end: 7, type: 'vacation' },
     ]);
   });
 
-  it.only('adds a non-conflicting range', () => {
+  it('adds a non-conflicting range after', () => {
     expect(
       addRange([{ start: 2, end: 8, type: 'unpaid' }], { start: 10, end: 13, type: 'vacation' }),
     ).toEqual([
@@ -18,7 +16,16 @@ describe('addRange', () => {
     ]);
   });
 
-  it.only('adds a conflicting range', () => {
+  it('adds a non-conflicting range before', () => {
+    expect(
+      addRange([{ start: 10, end: 13, type: 'vacation' }], { start: 2, end: 8, type: 'unpaid' }),
+    ).toEqual([
+      { start: 2, end: 8, type: 'unpaid' },
+      { start: 10, end: 13, type: 'vacation' },
+    ]);
+  });
+
+  it('adds a conflicting range', () => {
     expect(
       addRange([{ start: 2, end: 8, type: 'unpaid' }], { start: 6, end: 13, type: 'vacation' }),
     ).toEqual([
@@ -34,11 +41,11 @@ describe('addRange', () => {
           { start: 2, end: 8, type: 'vacation' },
           { start: 10, end: 15, type: 'vacation' },
         ],
-        { start: 6, end: 13, type: 'vacation' },
+        { start: 6, end: 13, type: 'unpaid' },
       ),
     ).toEqual([
       { start: 2, end: 5, type: 'vacation' },
-      { start: 6, end: 13, type: 'vacation' },
+      { start: 6, end: 13, type: 'unpaid' },
       { start: 14, end: 15, type: 'vacation' },
     ]);
   });
@@ -49,18 +56,44 @@ describe('addRange', () => {
         [
           { start: 2, end: 5, type: 'vacation' },
           { start: 7, end: 9, type: 'vacation' },
-          { start: 12, end: 15, type: 'vacation' },
+          { start: 12, end: 15, type: 'unpaid' },
         ],
         { start: 4, end: 13, type: 'vacation' },
       ),
     ).toEqual([
       { start: 2, end: 3, type: 'vacation' },
       { start: 4, end: 13, type: 'vacation' },
-      { start: 14, end: 15, type: 'vacation' },
+      { start: 14, end: 15, type: 'unpaid' },
+    ]);
+  });
+
+  it('stress test', () => {
+    expect(
+      addRange(
+        Array.from(Array(10000), (_, index) => ({
+          start: index,
+          end: index,
+          type: 'vacation',
+        })),
+        { start: -1, end: -1, type: 'unpaid' },
+      ),
+    ).toEqual([
+      { start: -1, end: -1, type: 'unpaid' },
+      ...Array.from(Array(10000), (_, index) => ({
+        start: index,
+        end: index,
+        type: 'vacation',
+      })),
     ]);
   });
 
   describe('with overwrite = false', () => {
+    it('adds a range to an empty set', () => {
+      expect(addRange([], { start: 3, end: 7, type: 'vacation' }, false)).toEqual([
+        { start: 3, end: 7, type: 'vacation' },
+      ]);
+    });
+
     it('adds a conflicting range', () => {
       expect(
         addRange(
@@ -68,12 +101,12 @@ describe('addRange', () => {
             { start: 2, end: 8, type: 'vacation' },
             { start: 10, end: 15, type: 'vacation' },
           ],
-          { start: 6, end: 13, type: 'vacation' },
+          { start: 6, end: 13, type: 'unpaid' },
           false,
         ),
       ).toEqual([
         { start: 2, end: 8, type: 'vacation' },
-        { start: 9, end: 9, type: 'vacation' },
+        { start: 9, end: 9, type: 'unpaid' },
         { start: 10, end: 15, type: 'vacation' },
       ]);
     });
@@ -85,12 +118,12 @@ describe('addRange', () => {
             { start: 2, end: 8, type: 'vacation' },
             { start: 9, end: 15, type: 'vacation' },
           ],
-          { start: 6, end: 13, type: 'vacation' },
+          { start: 6, end: 13, type: 'unpaid' },
           false,
         ),
       ).toEqual([
         { start: 2, end: 8, type: 'vacation' },
-        { start: 10, end: 15, type: 'vacation' },
+        { start: 9, end: 15, type: 'vacation' },
       ]);
     });
 
@@ -102,15 +135,39 @@ describe('addRange', () => {
             { start: 7, end: 9, type: 'vacation' },
             { start: 12, end: 15, type: 'vacation' },
           ],
-          { start: 4, end: 13, type: 'vacation' },
+          { start: 4, end: 13, type: 'unpaid' },
           false,
         ),
       ).toEqual([
         { start: 2, end: 5, type: 'vacation' },
-        { start: 6, end: 6, type: 'vacation' },
+        { start: 6, end: 6, type: 'unpaid' },
         { start: 7, end: 9, type: 'vacation' },
-        { start: 10, end: 11, type: 'vacation' },
+        { start: 10, end: 11, type: 'unpaid' },
         { start: 12, end: 15, type: 'vacation' },
+      ]);
+    });
+
+
+    // sprowadzenie do 100ms, kod zbyt wolny!
+
+    it('stress test', () => {
+      expect(
+        addRange(
+          Array.from(Array(10000), (_, index) => ({
+            start: index,
+            end: index,
+            type: 'vacation',
+          })),
+          { start: -1, end: -1, type: 'unpaid' },
+          false,
+        ),
+      ).toEqual([
+        { start: -1, end: -1, type: 'unpaid' },
+        ...Array.from(Array(10000), (_, index) => ({
+          start: index,
+          end: index,
+          type: 'vacation',
+        })),
       ]);
     });
   });
