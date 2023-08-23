@@ -81,28 +81,55 @@ describe('with overwrite = true', () => {
     ]);
   });
 
-  // it('stress test', () => {
-  //   expect(
-  //     addRange(
-  //       Array.from(Array(10000), (_, index) => ({
-  //         start: index,
-  //         end: index,
-  //         type: 'vacation',
-  //       })),
-  //       { start: -1, end: -1, type: 'unpaid' },
-  //     ),
-  //   ).toEqual([
-  //     { start: -1, end: -1, type: 'unpaid' },
-  //     ...Array.from(Array(10000), (_, index) => ({
-  //       start: index,
-  //       end: index,
-  //       type: 'vacation',
-  //     })),
-  //   ]);
-  // });
+  it('splits an existing range if it is covered by the new range', () => {
+    expect(
+      addRange([{ start: 1, end: 7, type: 'vacation' }], { start: 3, end: 5, type: 'unpaid' }),
+    ).toEqual([
+      { start: 1, end: 2, type: 'vacation' },
+      { start: 3, end: 5, type: 'unpaid' },
+      { start: 6, end: 7, type: 'vacation' },
+    ]);
+  });
+
+  it('handles ranges with the same start', () => {
+    expect(
+      addRange([{ start: 1, end: 7, type: 'vacation' }], { start: 1, end: 5, type: 'unpaid' }),
+    ).toEqual([
+      { start: 1, end: 5, type: 'unpaid' },
+      { start: 6, end: 7, type: 'vacation' },
+    ]);
+  });
+
+  it('handles ranges with the same end', () => {
+    expect(
+      addRange([{ start: 1, end: 7, type: 'vacation' }], { start: 3, end: 7, type: 'unpaid' }),
+    ).toEqual([
+      { start: 1, end: 2, type: 'vacation' },
+      { start: 3, end: 7, type: 'unpaid' },
+    ]);
+  });
+
+  it('stress test', () => {
+    expect(
+      addRange(
+        Array.from(Array(100000), (_, index) => ({
+          start: index,
+          end: index,
+          type: 'vacation',
+        })),
+        { start: -1, end: -1, type: 'unpaid' },
+      ),
+    ).toEqual([
+      { start: -1, end: -1, type: 'unpaid' },
+      ...Array.from(Array(100000), (_, index) => ({
+        start: index,
+        end: index,
+        type: 'vacation',
+      })),
+    ]);
+  });
 });
 
-// test git
 describe('with overwrite = false', () => {
   it('adds a range to an empty set', () => {
     expect(addRange([], { start: 3, end: 7, type: 'vacation' }, false)).toEqual([
@@ -110,13 +137,6 @@ describe('with overwrite = false', () => {
     ]);
   });
 
-  // |-------|
-  //           |------|
-  //      |------|
-
-  // |-------|
-  //           |------|
-  //          |
   it('adds a conflicting range', () => {
     expect(
       addRange(
@@ -170,26 +190,52 @@ describe('with overwrite = false', () => {
     ]);
   });
 
+  it('handles ranges with the same start', () => {
+    expect(
+      addRange(
+        [{ start: 1, end: 5, type: 'vacation' }],
+        { start: 1, end: 7, type: 'unpaid' },
+        false,
+      ),
+    ).toEqual([
+      { start: 1, end: 5, type: 'vacation' },
+      { start: 6, end: 7, type: 'unpaid' },
+    ]);
+  });
+
+  it('handles ranges with the same end', () => {
+    expect(
+      addRange(
+        [{ start: 3, end: 7, type: 'vacation' }],
+        { start: 1, end: 7, type: 'unpaid' },
+        false,
+      ),
+    ).toEqual([
+      { start: 1, end: 2, type: 'unpaid' },
+      { start: 3, end: 7, type: 'vacation' },
+    ]);
+  });
+
   // sprowadzenie do 100ms, kod zbyt wolny!
 
-  // it('stress test', () => {
-  //   expect(
-  //     addRange(
-  //       Array.from(Array(10000), (_, index) => ({
-  //         start: index,
-  //         end: index,
-  //         type: 'vacation',
-  //       })),
-  //       { start: -1, end: -1, type: 'unpaid' },
-  //       false,
-  //     ),
-  //   ).toEqual([
-  //     { start: -1, end: -1, type: 'unpaid' },
-  //     ...Array.from(Array(10000), (_, index) => ({
-  //       start: index,
-  //       end: index,
-  //       type: 'vacation',
-  //     })),
-  //   ]);
-  // });
+  it('stress test', () => {
+    expect(
+      addRange(
+        Array.from(Array(100000), (_, index) => ({
+          start: index,
+          end: index,
+          type: 'vacation',
+        })),
+        { start: -1, end: -1, type: 'unpaid' },
+        false,
+      ),
+    ).toEqual([
+      { start: -1, end: -1, type: 'unpaid' },
+      ...Array.from(Array(100000), (_, index) => ({
+        start: index,
+        end: index,
+        type: 'vacation',
+      })),
+    ]);
+  });
 });
