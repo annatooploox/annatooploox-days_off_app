@@ -22,9 +22,9 @@ export function addRange(
   newRange: Readonly<Range>,
   overwrite = true,
 ): Readonly<Range>[] {
-  // if (!overwrite) {
-  //   return addRangeNoOverwrite(ranges, newRange);
-  // }
+  if (ranges.length === 0) {
+    return [newRange];
+  }
 
   const newRanges: Range[] = [];
 
@@ -34,32 +34,98 @@ export function addRange(
   // 3. Dodajemy zakresy z ranges po addedRange w kolejności
 
   // 1. O(N)
-  for (const range of ranges) {
-    if (range.start < newRange.start) {
-      if (range.end < newRange.start) {
-        newRanges.push(range);
-      } else {
-        newRanges.push({ ...range, end: newRange.start - 1 });
-        // to samo co: newRanges.push({ start: range.start, end: newRange.start - 1, type: range.type });
+  if (overwrite) {
+    for (const range of ranges) {
+      if (range.start < newRange.start) {
+        if (range.end < newRange.start) {
+          newRanges.push(range);
+        } else {
+          newRanges.push({ ...range, end: newRange.start - 1 });
+        }
       }
     }
-  }
 
-  // 2. O(1)
-  newRanges.push(newRange);
+    // 2. O(1)
+    newRanges.push(newRange);
 
-  // 3. O(N)
-  for (const range of ranges) {
-    if (range.end > newRange.end) {
-      if (range.start > newRange.end) {
-        newRanges.push(range);
-      } else {
-        newRanges.push({ ...range, start: newRange.end + 1 });
+    // 3. O(N)
+    for (const range of ranges) {
+      if (range.end > newRange.end) {
+        if (range.start > newRange.end) {
+          newRanges.push(range);
+        } else {
+          newRanges.push({ ...range, start: newRange.end + 1 });
+        }
       }
     }
-  }
+  } else {
+    let start: number | undefined = undefined;
+    let end: number | undefined = undefined;
+    //to split ranges
 
-  // return newRanges.sort((a, b) => a.start - b.start);
+    console.log('ranges: ', ...ranges);
+
+    for (const range of ranges) {
+      console.log('start');
+      if (range.start < newRange.start) {
+        console.log(`pushujemy wczesniejszy el: ${range.start}, ${range.end}`);
+        newRanges.push(range);
+        if (range.end > newRange.start) {
+          console.log(`definiujemy poczatek: ${range.end + 1}`);
+          start = range.end + 1;
+          newRange = { ...newRange, start };
+        }
+      }
+
+      if (range.start > newRange.start) {
+        if (range.start < newRange.end) {
+          console.log(`definiujemy koniec ${range.start - 1}`);
+          end = range.start - 1;
+        }
+
+        if (start && end && end >= start) {
+          console.log(`mamy kawałek: ${start}, ${end}}`);
+          newRanges.push({ ...newRange, start, end });
+          console.log('zerujemy');
+          start = undefined;
+          end = undefined;
+          //zerujemy bo zaczynamy od nowa przy kolejnej iteracji. Od poczåtku szukamy czy c
+        }
+
+        console.log(`dodajemy element po: ${range.start}, ${range.end}`);
+        newRanges.push(range);
+      }
+
+      // jesli sie nie pokrywa
+    }
+
+    // // |-----|
+    // //  |---------
+    // for (const range of ranges) {
+    //   if (range.start < newRange.start) {
+    //     newRanges.push(range);
+    //     if (range.end > newRange.start) {
+    //       start = range.end + 1 };
+    //       newRange = {...newRange, }
+
+    //     }
+    //   }
+    // }
+
+    // newRanges.push(newRange);
+
+    // //    |---------
+    // // |--------|
+    // for (const range of ranges) {
+    //   if (range.start > newRange.start) {
+    //     newRanges.push(range);
+    //     if (range.start < newRange.end) {
+    //       newRange = { ...newRange, end: range.start - 1 };
+
+    //     }
+    //   }
+    // }
+  }
   return newRanges;
 }
 
@@ -117,8 +183,5 @@ export function addRange(
 // ranges: |---------|---|------------|-|--------------|
 // added:  |--------------|----------|-----------------|
 //////////////////////////////////////////////////////////
-
-// if (overwrite){}
-// else{}
 
 // stare zakresy na wierzch nowego dodaję po ELSE!!!
