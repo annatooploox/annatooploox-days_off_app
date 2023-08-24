@@ -47,7 +47,7 @@ export function addRange(
       }
     }
   } else {
-    // overwrite = false
+    // overwrite == false
     // 1. Dodajemy ranges:
     // 1.a Jeżeli pomiędzy obecnym range a poprzednim znajduje się kawałek newRange, to dodajemy ten kawałek ✔
     // 1.b Dodajemy obecny range ✔
