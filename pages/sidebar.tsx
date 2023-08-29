@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import InputDate from './inputdate';
 import Overwrite_checkbox from './overwrite_checkbox';
 import VacationTypedropdown from './vacationtypedropdown';
@@ -27,22 +29,26 @@ export default function Sidebar({
   isOpen: boolean;
   openSidebar: () => void;
 }) {
-  //stan wewnętrzny, zewnętrzny jest z APP stan aplikacji - stan na kalendarzu
-  //zmiany są widocznie na GRID dopieor jak klikniemy SAVE. A Grid powinien o tym wiedzieć w trakcie eydcji
-  // trzeba te edycje wyciagnac do App
-  // jeśki Sidebar jest OPEN to chcemy uyć edited, a jak nie jest OPen to zwykłych
-  //wyciągamy isOpen do App'a
-  //będzie duo propów do Sidebar - 7 wystarczy (teraz jest 14)
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // const closeSidebar = () => {
-  //   setIsOpen(false);
-  // };
+  const validateEndDate = () => {
+    if (endNumber < startNumber) {
+      setErrorMessage('End date is incorrect');
+    } else {
+      setErrorMessage('');
+    }
+  };
 
   return (
     <>
       <button
-        className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] absolute m-[100] px-5 py-[15px] rounded-[10px] border-0 right-[100px] 
-        top-[100px]"
+        className="bg-mediumgrey hover:bg-blue-500 text-blue-700 font-semibold
+        hover:text-white py-2 px-4 border border-blue-500
+        cursor-pointer inline-block
+        text-sm font-extrabold leading-5 text-center transition-all duration-200
+        align-baseline whitespace-nowrap touch-manipulation
+        absolute m-[100] px-5 py-[15px] rounded-[10px] border-0 right-[150px]
+        top-[500px]"
         onClick={openSidebar}
       >
         BOOK DAYS OFF
@@ -62,7 +68,13 @@ export default function Sidebar({
           SET NEW DAYS OFF
         </div>
         <InputDate value={startNumber} onChange={setStartNumber} />
-        <InputDate value={endNumber} onChange={setEndNumber} />
+        <InputDate
+          value={endNumber}
+          onChange={(newValue) => {
+            setEndNumber(newValue);
+            validateEndDate();
+          }}
+        />
         <VacationTypedropdown value={vacationType} onChange={setVacationType} />
         <Overwrite_checkbox></Overwrite_checkbox>
         <button
@@ -89,6 +101,11 @@ export default function Sidebar({
         >
           SAVE
         </button>
+        {errorMessage && (
+          <div style={{ color: 'red', textAlign: 'center', fontFamily: 'OpenSans' }}>
+            {errorMessage}
+          </div>
+        )}
       </div>
     </>
   );
