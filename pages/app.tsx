@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
-import Grid, { VacationType } from './grid';
+import Grid from './grid';
 import Sidebar from './sidebar';
+
+import { VacationType } from '@/src/models/vacationType';
 
 function App() {
   //stan zewnętrzny dla sidebar
