@@ -29,7 +29,6 @@ export default function Index() {
 
   const handleSave = () => {
     setRanges(addRange(ranges, newRange, overwrite));
-
     setIsOpen(false);
   };
 

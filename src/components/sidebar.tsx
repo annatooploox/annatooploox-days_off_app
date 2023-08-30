@@ -25,15 +25,11 @@ export function Sidebar({
   overwrite: boolean;
   setOverwrite: (value: boolean) => void;
 }) {
-  const [errorMessage, setErrorMessage] = useState('');
+  let errorMessage = '';
 
-  const validateEndDate = () => {
-    if (newRange.end < newRange.start) {
-      setErrorMessage('End date is incorrect');
-    } else {
-      setErrorMessage('');
-    }
-  };
+  if (newRange.end < newRange.start) {
+    errorMessage = 'End date is incorrect';
+  }
 
   return (
     <>
@@ -73,7 +69,6 @@ export function Sidebar({
           value={newRange.end}
           onChange={(newValue) => {
             setNewRange((newRange) => ({ ...newRange, end: newValue }));
-            validateEndDate();
           }}
         />
         <VacationTypeDropdown

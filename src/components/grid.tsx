@@ -1,5 +1,3 @@
-import { start } from 'repl';
-
 import { Range } from '@/src/models/range';
 import { VacationType } from '@/src/models/vacationType';
 
@@ -15,12 +13,13 @@ const colorVariants: Record<VacationType, string> = {
 };
 
 export function Grid({ ranges }: { ranges: Range[] }) {
-  // wyświetlamy wszystkie moliwe wakacje, ktore ustalilismy, a ine tylko jedne na raz.
-
-  // ustalam na koniec TYPE
   const calendarDays = Array.from({ length: 35 }, (_, index): CalendarDay => ({ day: index + 1 }));
 
-  //ToDo po tym wyej przechodze po wszystkich rangach, i ustawiam start i end i typ.
+  ranges.forEach((range) => {
+    for (let day = range.start; day <= range.end; day++) {
+      calendarDays[day].type = range.type;
+    }
+  });
 
   return (
     <div
