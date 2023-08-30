@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InputDate({
+export function InputDate({
   value,
   onChange,
 }: {

@@ -1,38 +1,34 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-import InputDate from './inputdate';
-import Overwrite_checkbox from './overwrite_checkbox';
-import VacationTypedropdown from './vacationtypedropdown';
+import { InputDate } from './inputDate';
+import { OverwriteCheckbox } from './overwriteCheckbox';
+import { VacationTypeDropdown } from './vacationTypeDropdown';
 
-import { VacationType } from '@/src/models/vacationType';
+import { Range } from '@/src/models/range';
 
-export default function Sidebar({
-  startNumber,
-  endNumber,
-  setStartNumber,
-  setEndNumber,
-  vacationType,
-  setVacationType,
+export function Sidebar({
+  newRange,
+  setNewRange,
   handleSave,
   handleCancel,
   isOpen,
   openSidebar,
+  overwrite,
+  setOverwrite,
 }: {
-  startNumber: number;
-  endNumber: number;
-  setStartNumber: (value: number) => void;
-  setEndNumber: (value: number) => void;
-  vacationType: VacationType;
-  setVacationType: (value: VacationType) => void;
+  newRange: Range;
+  setNewRange: Dispatch<SetStateAction<Range>>;
   handleCancel: () => void;
   handleSave: () => void;
   isOpen: boolean;
   openSidebar: () => void;
+  overwrite: boolean;
+  setOverwrite: (value: boolean) => void;
 }) {
   const [errorMessage, setErrorMessage] = useState('');
 
   const validateEndDate = () => {
-    if (endNumber < startNumber) {
+    if (newRange.end < newRange.start) {
       setErrorMessage('End date is incorrect');
     } else {
       setErrorMessage('');
@@ -67,16 +63,26 @@ export default function Sidebar({
         >
           SET NEW DAYS OFF
         </div>
-        <InputDate value={startNumber} onChange={setStartNumber} />
         <InputDate
-          value={endNumber}
+          value={newRange.start}
           onChange={(newValue) => {
-            setEndNumber(newValue);
+            setNewRange((newRange) => ({ ...newRange, start: newValue }));
+          }}
+        />
+        <InputDate
+          value={newRange.end}
+          onChange={(newValue) => {
+            setNewRange((newRange) => ({ ...newRange, end: newValue }));
             validateEndDate();
           }}
         />
-        <VacationTypedropdown value={vacationType} onChange={setVacationType} />
-        <Overwrite_checkbox></Overwrite_checkbox>
+        <VacationTypeDropdown
+          value={newRange.type}
+          onChange={(newValue) => {
+            setNewRange((newRange) => ({ ...newRange, type: newValue }));
+          }}
+        />
+        <OverwriteCheckbox overwrite={overwrite} setOverwrite={setOverwrite} />
         <button
           className="bg-mediumgrey hover:bg-blue-500 text-blue-700 font-semibold 
           hover:text-white py-2 px-4 border border-blue-500 

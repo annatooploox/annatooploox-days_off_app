@@ -3,7 +3,7 @@
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./pages/*.{ts,tsx}', './pages/**/*.{js,ts,jsx,tsx}'],
+  content: ['./pages/**/*.tsx', './src/**/*.tsx'],
   theme: {
     colors: {
       lightgrey: '	#F5F5F5',

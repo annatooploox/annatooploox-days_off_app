@@ -5,7 +5,7 @@ import { includes } from '@/src/utils/includes';
 
 const vacationTypes: VacationType[] = ['vacation', 'unpaid', 'parental'];
 
-export default function VacationTypedropdown({
+export function VacationTypeDropdown({
   value,
   onChange,
 }: {

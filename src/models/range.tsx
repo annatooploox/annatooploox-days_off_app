@@ -1,6 +1,6 @@
 import { VacationType } from './vacationType';
 
-interface Range {
+export interface Range {
   start: number;
   end: number;
   type: VacationType;
